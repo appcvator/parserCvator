@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webScrapers", "webScrapers"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cvWebScraper", "webScrapers\cvWebScraper\cvWebScraper.csproj", "{58E41AA1-B039-48AB-9C98-C3E561ED453E}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "jobZarplataRuScraper", "pythonFunc\jobZarplataRuScraper\jobZarplataRuScraper.pyproj", "{657761D4-38EC-4902-860F-3A60146132FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,8 @@ Global
 		{58E41AA1-B039-48AB-9C98-C3E561ED453E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58E41AA1-B039-48AB-9C98-C3E561ED453E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58E41AA1-B039-48AB-9C98-C3E561ED453E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657761D4-38EC-4902-860F-3A60146132FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657761D4-38EC-4902-860F-3A60146132FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7F3CB47D-B056-4719-9714-4DB2D55DB7A8} = {1B454D62-F1C5-432D-B0AC-2506C1BB81CB}
 		{58E41AA1-B039-48AB-9C98-C3E561ED453E} = {D9B2F322-049A-4E40-AFD4-E2CDA97BC004}
+		{657761D4-38EC-4902-860F-3A60146132FA} = {1B454D62-F1C5-432D-B0AC-2506C1BB81CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {733B8377-3C7E-480A-B424-1C6EFABB928D}
