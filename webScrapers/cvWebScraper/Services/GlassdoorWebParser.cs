@@ -21,20 +21,14 @@ namespace parser.Services
             var htmlDocument = new HtmlDocument();
             htmlDocument.Load(htmlContent);
 
-            //var details = new Dictionary<string, string>();
-
-            // Extract the vacancy title
             var titleNode = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div[2]/div/div/div[2]");
             result.JobDetails.JobTitle = titleNode != null ? titleNode.InnerText : string.Empty;
 
 
-            // Extract the company name
             var companyNode = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/text()");
             result.JobDetails.Company = companyNode != null ? companyNode.InnerText : "";
 
-            
 
-            //// Extract the skills
             var skillNodes = htmlDocument.DocumentNode.SelectNodes("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[1]/div/div[2]/div/div/ul[2]");
             if (skillNodes != null)
             {
@@ -42,17 +36,14 @@ namespace parser.Services
             }
 
             
-            //Country
             var country = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div[2]/div/div/div[3]/span");
             result.JobDetails.Country = country != null ? country.InnerText : "";
 
 
-            //City
             var city = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[1]/div");
             result.JobDetails.City = city != null ? city.InnerText : "";
 
 
-            //Job-Description
             var jobDesciption=htmlDocument.DocumentNode.SelectNodes("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[1]/div/div[2]/div/div/ul[1]");
             if (jobDesciption != null)
             {
@@ -66,21 +57,10 @@ namespace parser.Services
             }
 
 
-            //JobType
             var jobType = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/div");
             result.JobDetails.JobType = jobType != null ? jobType.InnerText : "";
 
 
-            ////Salary Period
-            //var averageSalary = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[2]/div[1]");
-
-            //var averageSalaryString = averageSalary.InnerText.ToString();
-            //var index = averageSalaryString.IndexOf("/");
-            //var salaryPeriod = averageSalaryString.Substring(index);
-            //result.JobDetails.SalaryPeriod = salaryPeriod != null ? salaryPeriod : "";
-
-
-            //salary
             var salary = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div[2]/div/div/div[4]/span/text()");
             if (salary != null)
             {
@@ -117,7 +97,7 @@ namespace parser.Services
                 result.JobDetails.SalaryMax = Decimal.Parse(salaryMaxProcessed);
             }
 
-            //salary period
+
             var averageSalary = htmlDocument.DocumentNode.SelectSingleNode("/html/body/div[2]/div/div/div[1]/div[2]/div/div/div/div[2]/div[1]");
             if (averageSalary != null)
             {
