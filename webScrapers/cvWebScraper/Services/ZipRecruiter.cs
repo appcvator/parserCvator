@@ -1,15 +1,16 @@
-﻿using parser.Interfaces;
-using parser.Models;
+﻿using cvWebScraper.Interfaces;
+using cvWebScraper.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Text.Json.Serialization;
 
-namespace parser.Services
+
+
+
+namespace cvWebScraper.Services
 {
     public class ZipRecruiterWebParser : IWebParser
     {
