@@ -1,14 +1,13 @@
-﻿using parser.Interfaces;
-using parser.Models;
+﻿using cvWebScraper.Interfaces;
+using cvWebScraper.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 
-namespace parser.Services
+namespace cvWebScraper.Services
 {
     public class NaukriWebParser : IWebParser
     {
@@ -84,15 +83,29 @@ namespace parser.Services
             
 
 
-            var salary = htmlDocument.DocumentNode.SelectSingleNode("");
+            var preferred = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"root\"]/main/div[2]/div[1]/section[2]/div[1]/p[2]/strong[2]");
+            if (preferred != null)
+            {
+                result.Requirements.PreferredQualifications.Add(preferred.InnerText);
+            }
 
 
-            //var salary = htmlDocument.DocumentNode.SelectSingleNode("");
+            var skills = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"root\"]/main/div[2]/div[1]/section[2]/div[1]/ul[2]/li");
+            if (skills != null)
+            {
+                result.Requirements.Skills.Add(skills.InnerText);
+            }
 
 
+            var education = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"root\"]/main/div[2]/div[1]/section[2]/div[3]");
+            if (education != null)
+            {
+                result.Requirements.Education=education.InnerText;
+               
+            }
 
 
-
+            
             return result;
         }
 
