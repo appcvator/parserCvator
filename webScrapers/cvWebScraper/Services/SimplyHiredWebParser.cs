@@ -1,5 +1,5 @@
-﻿using parser.Interfaces;
-using parser.Models;
+﻿using cvWebScraper.Interfaces;
+using cvWebScraper.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace parser.Services
+namespace cvWebScraper.Services
 {
     public class SimplyHiredWebParser : IWebParser
     {
@@ -25,22 +25,22 @@ namespace parser.Services
             var details = new Dictionary<string, string>();
 
 
-            
+
             var city = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/header/div/div/div[2]/div[1]/span[2]/span/span");
             result.JobDetails.City = city != null ? city.InnerText : string.Empty;
 
 
-            var company= htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/header/div/div/div[2]/div[1]/span[1]/span/span[1]");
+            var company = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/header/div/div/div[2]/div[1]/span[1]/span/span[1]");
             result.JobDetails.Company = company != null ? company.InnerText : string.Empty;
 
 
-            
+
 
 
             var jobDescription = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/div/div[1]/div/div[4]/div");
-            if(jobDescription != null )
+            if (jobDescription != null)
             {
-                var jobText=jobDescription.InnerText;
+                var jobText = jobDescription.InnerText;
                 jobText = jobText.ToLower();
                 var index = jobText.IndexOf("key responsibilities");
                 jobText = jobText.Substring(0, index);
@@ -49,7 +49,7 @@ namespace parser.Services
 
 
             var jobTitle = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/header/div/div/div[1]/h2");
-            result.JobDetails.JobTitle=jobTitle !=null ? jobTitle.InnerText : string.Empty;
+            result.JobDetails.JobTitle = jobTitle != null ? jobTitle.InnerText : string.Empty;
 
 
             var jobType = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/div/div[1]/div/div[1]/div/span[1]/span/span");
@@ -129,19 +129,107 @@ namespace parser.Services
             var responsibilities = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/div/div[1]/div/div[4]/div/ul[1]");
             if (responsibilities != null)
             {
-                
+
                 foreach (var childNode in responsibilities.ChildNodes)
                 {
                     result.Responsibilities.Add(childNode.InnerText);
                 }
             }
 
+            var qualifications = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"__next\"]/div/main/div/div/aside/div/div[1]/div/div[4]/div/ul[2]");
+            if (qualifications != null)
+            {
+                foreach (var item in qualifications.ChildNodes)
+                {
+                    var education = item.InnerText;
+                    education = education.ToLower();
+                    var searchWord = "degree";
+                    var index = education.IndexOf(searchWord);
+                    if (index < 0)
+                    {
+                        continue;
+                    }
+                    education = education.Substring(0, index + searchWord.Length);
+
+                    result.Requirements.Education = education;
+
+                    break;
+                }
+            }
+            if (qualifications != null)
+            {
+                foreach (var item in qualifications.ChildNodes)
+                {
+                    var experience = item.InnerText;
+                    experience = experience.ToLower();
+                    var searchWord = "year";
+                    if (experience.Contains(searchWord))
+                    {
+                        var index = experience.IndexOf(searchWord);
+                        var years = experience.Substring(0, index + searchWord.Length);
+                        var description = experience.Substring(index + searchWord.Length);
 
 
+                        result.Requirements.Experience.Description = description;
+                        result.Requirements.Experience.Years = years;
+                        break;
+                    }
+                }
+            }
+
+
+            if (qualifications != null)
+            {
+                List<string> preferred = new List<string>();
+                foreach (var item in qualifications.ChildNodes)
+                {
+                    var itemText = item.InnerText;
+                    itemText = itemText.ToLower();
+                    var searchWord = "preferred";
+
+                    if (itemText.Contains(searchWord))
+                    {
+                        var searchWordIndex = itemText.IndexOf(searchWord);
+                        var sentenceEndIndex = itemText.IndexOf(";");
+                        while (sentenceEndIndex > 0 && searchWordIndex > sentenceEndIndex)
+                        {
+                            itemText = itemText.Substring(sentenceEndIndex+1);
+                            sentenceEndIndex = itemText.IndexOf(";");
+
+                        }
+                        preferred.Add(itemText);
+
+                    }
+
+
+                }
+                foreach (var item in preferred)
+                {
+                    result.Requirements.PreferredQualifications.Add(item);
+                }
+            }
+
+
+            if (qualifications != null)
+            {
+                foreach (var item in qualifications.ChildNodes)
+                {
+                    var itemText = item.InnerText;
+                    itemText = itemText.ToLower();
+                    var searchWord = "skill";
+
+                    if (itemText.Contains(searchWord))
+                    {
+                        result.Requirements.Skills.Add(itemText);
+                    }
+                }
+            }
 
 
             return result;
-        }
+
+
+    }
 
 
     }
