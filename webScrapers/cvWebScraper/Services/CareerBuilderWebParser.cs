@@ -1,5 +1,5 @@
-﻿using parser.Interfaces;
-using parser.Models;
+﻿using cvWebScraper.Interfaces;
+using cvWebScraper.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace parser.Services
+namespace cvWebScraper.Services
 {
     public class CareerBuilderWebParser : IWebParser
     {
@@ -130,8 +130,17 @@ namespace parser.Services
             }
 
 
+            var skills = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"jdp_description\"]/div[1]/div[1]/p[1]");
+            if(skills!=null)
+            {
+                var text = skills.InnerText;
+                var search = "Who we're looking for";
+                var index=text.IndexOf(search);
+                var index2 = text.IndexOf("Benefits");
+                text = text.Substring(index+search.Length+1,index2-index-search.Length-1);
+                result.Requirements.Skills.Add(text);
 
-
+            }
 
 
 
