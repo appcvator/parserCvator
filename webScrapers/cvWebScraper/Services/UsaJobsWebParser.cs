@@ -11,7 +11,7 @@ namespace parser.Services
 {
     public class UsaJobsWebParser : IWebParser
     {
-        public string Key { get; } = "www.indeed.com";
+        public string Key { get; } = "www.usajobs.gov";
 
         public Vacancy GetVacancy(string htmlContent)
         {
