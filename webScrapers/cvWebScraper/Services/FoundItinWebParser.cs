@@ -1,5 +1,5 @@
-﻿using parser.Interfaces;
-using parser.Models;
+﻿using cvWebScraper.Interfaces;
+using cvWebScraper.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace parser.Services
+namespace cvWebScraper.Services
 {
     public class FoundItInWebParser : IWebParser
     {
@@ -46,14 +46,21 @@ namespace parser.Services
             result.JobDetails.JobType = jobType != null ? jobType.InnerText : string.Empty;
 
 
-            //var titleNode = htmlDocument.DocumentNode.SelectSingleNode("");
+            var education = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"jobSummary\"]/div[6]/div[2]");
+            result.Requirements.Education = education != null ? education.InnerText : string.Empty ;
 
 
-            //var titleNode = htmlDocument.DocumentNode.SelectSingleNode("");
+            var skills = htmlDocument.DocumentNode.SelectSingleNode("//*[@id=\"jobSummary\"]/div[5]/div[2]");
+            if(skills!=null)
+            {
+                foreach(var item in skills.ChildNodes)
+                {
+                    result.Requirements.Skills.Add(item.InnerText);
+                }
+            }
 
 
-
-            //var titleNode = htmlDocument.DocumentNode.SelectSingleNode("");
+            
 
 
 
